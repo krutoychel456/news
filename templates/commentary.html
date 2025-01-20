@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+Комментировать - {{ single_object.article }}
+{% endblock %}
+
+{% block content %}
+
+    <p>
+        {% if single_object.body %}
+            {{ single_object.body|linebreaks }}
+        {% else %}
+            Админ пьет чай английский
+        {% endif %}
+    </p>
+
+    <form action="" method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <input type="submit" value="Отправить">
+    </form>
+
+{% endblock %}

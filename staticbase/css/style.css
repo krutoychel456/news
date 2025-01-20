@@ -1,0 +1,19 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+nav {
+    padding: 1.45em;
+    background-color: #003151;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav a, nav span {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    margin-right: 0.1em;
+}
