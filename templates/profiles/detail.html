@@ -9,7 +9,7 @@
 {% block content %}
 
 {% if profile.userinformation.profile_image %}
-    <img src="{% static profile.userinformation.profile_image.url %}" alt="{{ profile }}" width="100">
+    <img src="{{ profile.userinformation.profile_image.url }}" alt="{{ profile }}" width="100">
 {% endif %}
 
 <h1>{{ profile }}</h1>
