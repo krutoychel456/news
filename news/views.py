@@ -57,7 +57,7 @@ def edit_view(request, pk):
         if form.is_valid():
             edited_obj = form.save(commit=False)
             edited_obj.save()
-            return redirect(f"/id/{pk}/")
+            return redirect(f"/news/{pk}/")
     else:
         form = NewsModelForm(instance=obj)
     return render(request, 'edit_news_form.html', {'single_object': obj, 'form': form})
