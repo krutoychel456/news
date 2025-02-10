@@ -3,33 +3,48 @@
 {% load static %}
 
 {% block title %}
-{{ block.super }} - {{ profile }}
+    {{ single_object.article }}
 {% endblock %}
 
 {% block content %}
+<h5>автор: {{ single_object.author }}</h5>
+<h1>{{ single_object.article }}</h1>
 
-{% if profile.userinformation.profile_image %}
-    <img src="{{ profile.userinformation.profile_image.url }}" alt="{{ profile }}" width="100">
+{% include 'detail_snippet.html' with single_object=single_object %}
+
+{% if single_object.image %}
+    <img src="{{ single_object.image.url }}" alt="{{ single_object.article }}" height="400">
 {% endif %}
 
-<h1>{{ profile }}</h1>
-    {% if profile.userinformation.bio %}
-        <h1>bio: {{ profile.userinformation.bio }}</h1>
-    {% else %}
-        <h1>No bio</h1>
+{% if user.is_authenticated %}
+    <h5>Likes: {{ single_object.get_likes }}</h5>
+    <form action="/news/like/{{ single_object.pk }}/" method="post">
+        {% csrf_token %}
+        {% if not liked %}
+            <input type="submit" value="большой палец вверх">
+        {% else %}
+            <input type="submit" value="ну и вниз сответсвенно">
+        {% endif %}
+    </form>
+    <a href="/news/edit/{{ single_object.pk }}">Изменить</a>
+    <a href="/news/delete/{{ single_object.pk }}">Удалить</a>
+    <a href="/news/commentary/{{ single_object.pk }}">Комментировать</a>
+{% endif %}
+
+<h5>беседа</h5>
+{% for c in single_object.commentary.all %}
+    <p>
+        <img src="{{ c.user.userinformation.profile_image.url }}" alt="{{ c.user }}-avatar" width="50">
+        {{ c.date.time }}
+        {{ c.user }}:
+        {{ c.text }}
+    </p>
+
+    {% if user.is_authenticated %}
+        <a href="/news/commentary/edit/{{ single_object.pk }}/{{ c.pk }}/">Изменить</a>
+        <a href="/news/commentary/delete/{{ single_object.pk }}/{{ c.pk }}/">Удалить</a>
     {% endif %}
 
-<form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-
-    {{ form.as_p }}
-
-    {% if not profile.userinfomation.profile_image %}
-        <input type="submit" value="Добавить">
-    {% else %}
-        <input type="submit" value="Изменить">
-    {% endif %}
-        
-</form>
+{% endfor %}
 
 {% endblock %}

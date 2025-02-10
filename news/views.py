@@ -134,3 +134,6 @@ def likes_view(request, pk):
         else:
             obj.likes.filter(user=user).delete()
     return redirect(f"/news/{pk}/")
+
+def contact(request, *args, **kwargs):
+    return render(request, 'contact.html')
